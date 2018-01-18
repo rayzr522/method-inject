@@ -1,0 +1,9 @@
+{
+  "name": "method-inject",
+  "version": "0.0.1",
+  "description": "A simple system for injecting and transforming methods",
+  "main": "index.js",
+  "repository": "https://github.com/Rayzr522/method-inject.git",
+  "author": "Rayzr522 <rayzr522@gmail.com>",
+  "license": "MIT"
+}
