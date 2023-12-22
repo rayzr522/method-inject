@@ -17,31 +17,33 @@ npm install --save method-inject
 To use method-inject, it's as simple as calling it on a method:
 
 ```javascript
-const inject = require('method-inject');
+const inject = require("method-inject");
 
 // Transform the first argument and prepend '[INFO] ' to it
-const log = inject(console.log).transform(0, text => '[INFO] ' + text);
+const log = inject(console.log).transform(0, (text) => "[INFO] " + text);
 
-log('Hello, there!');
+log("Hello, there!");
 // => [INFO] Hello, there!
 ```
 
 There are several methods, the rest of which are shown below:
 
 ```javascript
-const inject = require('method-inject');
+const inject = require("method-inject");
 const someObject = {
-    buggedMethod(someArg) {
-        console.log(someArg + 1);
-    }
+  buggedMethod(someArg) {
+    console.log(someArg + 1);
+  },
 };
 
 // Hmm, we've been getting `NaN` in the console from someObject.buggedMethod, let's check it out:
-someObject.buggedMethod = inject(someObject.buggedMethod, someObject).before(args => console.log('buggedMethod called with the following args:', args));
+someObject.buggedMethod = inject(someObject.buggedMethod, someObject).before(
+  (args) => console.log("buggedMethod called with the following args:", args)
+);
 // Note that we passed someObject as the second parameter to inject, indicating that the method should be bound to that object.
 
 // Problem code:
-someObject.buggedMethod('ERRORS');
+someObject.buggedMethod("ERRORS");
 // => buggedMethod called with the following args: [ 'ERRORS' ]
 // => NaN
 ```
@@ -71,13 +73,15 @@ console.log(`The meaning of life is ${db.get('life', -1)}`);
 ```
 
 ```javascript
-const inject = require('method-inject');
+const inject = require("method-inject");
 
 const multiply = (a, b) => {
-    return a * b;
+  return a * b;
 };
 
-const multiplyAndSquare = inject(multiply).transformOutput(output => output * output);
+const multiplyAndSquare = inject(multiply).transformOutput(
+  (output) => output * output
+);
 
 // (2 * 3) * (2 * 3) = 6 * 6 = 36
 console.log(multiplyAndSquare(2, 3));
@@ -87,22 +91,18 @@ console.log(multiplyAndSquare(2, 3));
 Methods can also be chained indefinitely:
 
 ```javascript
-const inject = require('method-inject');
+const inject = require("method-inject");
 
 const multiply = (a, b) => a * b;
-const addOne = x => x + 1;
-const square = x => x * x;
+const addOne = (x) => x + 1;
+const square = (x) => x * x;
 
 const verboseComplexMath = inject(multiply)
-    .after(output => console.log(`COMPLEX_CALC -> ${output}`))
-    .transformOutput(addOne)
-    .transformOutput(square);
+  .after((output) => console.log(`COMPLEX_CALC -> ${output}`))
+  .transformOutput(addOne)
+  .transformOutput(square);
 
 console.log(verboseComplexMath(4, 5));
 // => COMPLEX_CALC -> 441
 // => 441
 ```
-
-## Join Me
-
-[![Discord Badge](https://github.com/Rayzr522/ProjectResources/raw/master/RayzrDev/badge-small.png)](https://discord.io/rayzrdevofficial)
